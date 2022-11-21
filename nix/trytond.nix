@@ -1,6 +1,7 @@
 # Modified from https://github.com/NixOS/nixpkgs/blob/nixos-22.05/pkgs/development/python-modules/trytond/default.nix
 
 { modules
+, sao
 , extraDependencies ? []
   # Nixpkgs
 , python
@@ -121,6 +122,11 @@ buildPythonPackage rec {
 #    ${python.interpreter} -m unittest discover -s trytond.tests
 #
 #    runHook postCheck
+  '';
+
+  postFixup = ''
+    wrapProgram $out/bin/trytond \
+      --set TRYTOND_WEB__ROOT ${sao}
   '';
 
   meta = with lib; {
