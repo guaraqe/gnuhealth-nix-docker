@@ -20,13 +20,13 @@ The following commands should be executed inside the Nix shell, by running
 
 First, to login, run:
 
-```shell
+```console
 $ flyctl auth login
 ```
 
 Then, the Postgres database must be created:
 
-```shell
+```console
 $ flyctl postgres create
 ```
 
@@ -40,7 +40,7 @@ This command will show the credentials, which should be saved in a `secrets.json
 
 Finally, create your app:
 
-```shell
+```console
 $ flyctl launch
 ```
 
@@ -62,19 +62,19 @@ Once more, all commands should be run inside the Nix shell, by running
 
 First, build the docker image and load it:
 
-```shell
+```console
 $ just build-and-load-image
 ```
 
 Tag the image conveniently, and push it:
 
-```shell
+```console
 $ just tag-and-push-image $APP_NAME
 ```
 
 And finally, deploy:
 
-```shell
+```console
 $ just deploy $APP_NAME
 ```
 
