@@ -20,19 +20,19 @@ The following commands should be executed inside the Nix shell, by running
 
 First, to login, run:
 
-```
-flyctl auth login
+```shell
+$ flyctl auth login
 ```
 
 Then, the Postgres database must be created:
 
-```
-flyctl postgres create
+```shell
+$ flyctl postgres create
 ```
 
 This command will show the credentials, which should be saved in a `secrets.json` file as:
 
-```
+```json
 {
   "pgstring": "postgresql://user:password@host:port"
 }
@@ -40,8 +40,8 @@ This command will show the credentials, which should be saved in a `secrets.json
 
 Finally, create your app:
 
-```
-flyctl launch
+```shell
+$ flyctl launch
 ```
 
 In this step you will choose the app name, which will determine its URL. This name should be used for the `tag-and-push-image`
@@ -50,7 +50,7 @@ In the following, the app name will be called `$APP_NAME`.
 
 Make dure the image is in the `fly.toml` configuration file:
 
-```
+```toml
 [build]
   image = "registry.fly.io/$APP_NAME:latest"
 ```
@@ -62,18 +62,20 @@ Once more, all commands should be run inside the Nix shell, by running
 
 First, build the docker image and load it:
 
-```
-just build-and-load-image
+```shell
+$ just build-and-load-image
 ```
 
 Tag the image conveniently, and push it:
 
-```
-just tag-and-push-image $APP_NAME
+```shell
+$ just tag-and-push-image $APP_NAME
 ```
 
-```
-just deploy $APP_NAME
+And finally, deploy:
+
+```shell
+$ just deploy $APP_NAME
 ```
 
 # About the implementation
