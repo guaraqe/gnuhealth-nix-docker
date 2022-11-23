@@ -3,17 +3,83 @@
 This repository defines a Docker image for GNUHealth, packaged with Nix for
 ease of customization and reproducible deployment.
 
-Docker images produced here should be easy to deploy to services such as
-Heroku, AWS or Fly.io.
+Docker images produced here should be easy to deploy to cloud services. The
+code here uses Fly.io, but it should be simple to adapt to other platforms.
 
-# Building the Docker image
+# Configuring modules
 
-Just do...
+Modules can be defined in the `release.nix` file. The appropriate versions of
+modules can be found [here](https://downloads.tryton.org/6.4/).
+
+# Setting up Fly.io
+
+Make sure to create an account with access to the free tier.
+
+The following commands should be executed inside the Nix shell, by running
+`nix-shell` before starting.
+
+First, to login, run:
+
+```
+flyctl auth login
+```
+
+Then, the Postgres database must be created:
+
+```
+flyctl postgres create
+```
+
+This command will show the credentials, which should be saved in a `secrets.json` file as:
+
+```
+{
+  "pgstring": "postgresql://user:password@host:port"
+}
+```
+
+Finally, create your app:
+
+```
+flyctl launch
+```
+
+In this step you will choose the app name, which will determine its URL. This name should be used for the `tag-and-push-image`
+
+In the following, the app name will be called `$APP_NAME`.
+
+Make dure the image is in the `fly.toml` configuration file:
+
+```
+[build]
+  image = "registry.fly.io/$APP_NAME:latest"
+```
+
+# Building and deploying
+
+Once more, all commands should be run inside the Nix shell, by running
+`nix-shell` before starting.
+
+First, build the docker image and load it:
+
+```
+just build-and-load-image
+```
+
+Tag the image conveniently, and push it:
+
+```
+just tag-and-push-image $APP_NAME
+```
+
+```
+just deploy $APP_NAME
+```
 
 # About the implementation
 
 GNUHealth is implemented as a series of modules for Tryton. Therefore, the work
-here consists on making these modules available in a place where Tryton can
+here consisted on making these modules available in a place where Tryton can
 find them. The same Python executable will be used to run Tryton as well as its
 modules, so all dependencies must be available to it.
 

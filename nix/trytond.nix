@@ -1,8 +1,8 @@
 # Modified from https://github.com/NixOS/nixpkgs/blob/nixos-22.05/pkgs/development/python-modules/trytond/default.nix
 
 { modules
-, sao
 , extraDependencies ? []
+, tryton-sao
   # Nixpkgs
 , python
 , lib
@@ -38,9 +38,10 @@
 , pytz
 , qrcode
 , relatorio
+, setuptools
 , simpleeval
 , six
-, unoconv
+#, unoconv
 , vobject
 , weasyprint
 , werkzeug
@@ -98,9 +99,10 @@ buildPythonPackage rec {
     pytz
     qrcode
     relatorio
+    setuptools
     simpleeval
     six
-    unoconv
+    #unoconv
     vobject
     weasyprint
     werkzeug
@@ -126,7 +128,7 @@ buildPythonPackage rec {
 
   postFixup = ''
     wrapProgram $out/bin/trytond \
-      --set TRYTOND_WEB__ROOT ${sao}
+      --set TRYTOND_WEB__ROOT ${tryton-sao}
   '';
 
   meta = with lib; {
