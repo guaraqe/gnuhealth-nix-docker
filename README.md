@@ -6,6 +6,9 @@ ease of customization and reproducible deployment.
 Docker images produced here should be easy to deploy to cloud services. The
 code here uses Fly.io, but it should be simple to adapt to other platforms.
 
+A deployment done for the [Tashkent State Dental Institute](https://tsdi.uz/)
+can be found [here](https://tdsi-gnuhealth.fly.dev/).
+
 # Configuring modules
 
 Modules can be defined in the `release.nix` file. The appropriate versions of
@@ -54,6 +57,16 @@ Make dure the image is in the `fly.toml` configuration file:
 [build]
   image = "registry.fly.io/$APP_NAME:latest"
 ```
+
+Save this name in the `secrets.json` file:
+
+```json
+{
+  "app_name": "$APP_NAME",
+  "pgstring": "postgresql://user:password@host:port"
+}
+```
+
 
 # Building and deploying
 

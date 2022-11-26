@@ -7,5 +7,6 @@ mkShell {
     bower2nix
     just
     flyctl
+    jq
   ];
 }
